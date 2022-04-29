@@ -1,25 +1,27 @@
 # Python
+import json
 from uuid import UUID
-from datetime import date, datetime
+from datetime import date
+from datetime import datetime
 from typing import Optional, List
-
-# FastAPI
-from fastapi import FastAPI
-from fastapi import status
 
 # Pydantic
 from pydantic import BaseModel
 from pydantic import EmailStr
 from pydantic import Field
 
+# FastAPI
+from fastapi import FastAPI
+from fastapi import status
+from fastapi import Body
+
 app = FastAPI()
 
 # Models
 
-## Model Users
 class UserBase(BaseModel):
     user_id: UUID = Field(...)
-    email: EmailStr = Field(...)
+#   email: EmailStr = Field(...)
 
 class UserLogin(UserBase):
     password: str = Field(
@@ -48,7 +50,6 @@ class UserRegister(User):
         max_length=64
     )
 
-## Model Tweet
 class Tweet(BaseModel):
     tweet_id: UUID = Field(...)
     content: str = Field(
@@ -60,7 +61,7 @@ class Tweet(BaseModel):
     update_at: Optional[datetime] = Field(default=None)
     by: User = Field(...)
 
-# Path Operator.
+# Path Operations
 
 ## Users
 
@@ -72,25 +73,30 @@ class Tweet(BaseModel):
     summary="Register a User",
     tags=["Users"]
 )
-def signup(): 
+def signup(user: UserRegister = Body(...)): 
     """
     Signup
-
     This path operation register a user in the app
-    Parameters:
-
-    - Request body parameter
-    - user: UserRegister
-
-    Returns a json with the basic user information:
-
-    - user_id: UUID
-    - email: Emailstr
-    - first_name: str
-    - last_name: str
-    - birth_date: str
-
+    Parameters: 
+        - Request body parameter
+            - user: UserRegister
+    
+    Returns a json with the basic user information: 
+        - user_id: UUID
+        - email: Emailstr
+        - first_name: str
+        - last_name: str
+        - birth_date: datetime
     """
+    with open("users.json", "r+", encoding="utf-8") as f: 
+        results = json.loads(f.read())
+        user_dict = user.dict()
+        user_dict["user_id"] = str(user_dict["user_id"])
+        user_dict["birth_date"] = str(user_dict["birth_date"])
+        results.append(user_dict)
+        f.seek(0)
+        f.write(json.dumps(results))
+        return user
 
 ### Login a user
 @app.post(
@@ -101,24 +107,7 @@ def signup():
     tags=["Users"]
 )
 def login(): 
-    """
-    Login a user
-
-    This path operation Login a user in the app
-    Parameters:
-
-    - Request body parameter
-    - user: UserRegister
-
-    Returns a json with the basic user information:
-
-    - user_id: UUID
-    - email: Emailstr
-    - first_name: str
-    - last_name: str
-    - birth_date: str
-
-    """
+    pass
 
 ### Show all users
 @app.get(
@@ -129,7 +118,20 @@ def login():
     tags=["Users"]
 )
 def show_all_users(): 
-    pass
+    """
+    This path operation shows all users in the app
+    Parameters: 
+        -
+    Returns a json list with all users in the app, with the following keys: 
+        - user_id: UUID
+        - email: Emailstr
+        - first_name: str
+        - last_name: str
+        - birth_date: datetime
+    """
+    with open("users.json", "r", encoding="utf-8") as f: 
+        results = json.loads(f.read())
+        return results
 
 ### Show a user
 @app.get(
@@ -163,6 +165,7 @@ def delete_a_user():
 )
 def update_a_user(): 
     pass
+
 
 ## Tweets
 
