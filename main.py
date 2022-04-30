@@ -76,17 +76,18 @@ class Tweet(BaseModel):
 def signup(user: UserRegister = Body(...)): 
     """
     Signup
-    This path operation register a user in the app
-    Parameters: 
-        - Request body parameter
-            - user: UserRegister
+    - This path operation register a user in the app
     
+    Parameters: 
+    - Request body parameter
+        - user: UserRegister
+
     Returns a json with the basic user information: 
-        - user_id: UUID
-        - email: Emailstr
-        - first_name: str
-        - last_name: str
-        - birth_date: datetime
+    - user_id: UUID
+    - email: Emailstr
+    - first_name: str
+    - last_name: str
+    - birth_date: datetime
     """
     with open("users.json", "r+", encoding="utf-8") as f: 
         results = json.loads(f.read())
@@ -107,6 +108,17 @@ def signup(user: UserRegister = Body(...)):
     tags=["Users"]
 )
 def login(): 
+    """
+    Login
+    - This path operation login a Person in the app
+    
+    Parameters:
+    - Request body parameters:
+        - email: EmailStr
+        - password: str
+    
+    Returns a LoginOut model with username and message
+    """    
     pass
 
 ### Show all users
@@ -120,14 +132,15 @@ def login():
 def show_all_users(): 
     """
     This path operation shows all users in the app
+    
     Parameters: 
-        -
+
     Returns a json list with all users in the app, with the following keys: 
-        - user_id: UUID
-        - email: Emailstr
-        - first_name: str
-        - last_name: str
-        - birth_date: datetime
+    - user_id: UUID
+    - email: Emailstr
+    - first_name: str
+    - last_name: str
+    - birth_date: datetime
     """
     with open("users.json", "r", encoding="utf-8") as f: 
         results = json.loads(f.read())
@@ -142,6 +155,21 @@ def show_all_users():
     tags=["Users"]
 )
 def show_a_user(): 
+    """
+    Show a user
+    This path operation show a user in the app
+    
+    Parameters
+    - Request body parameter: 
+        - user_id: UUID
+ 
+    Returns a json with the a user in the app, with the following keys:
+    - user_id: UUID
+    - email: EmailStr
+    - first_name: str
+    - last_name: str
+    - birth_date: datetime        
+    """     
     pass
 
 ### Delete a user
@@ -153,6 +181,20 @@ def show_a_user():
     tags=["Users"]
 )
 def delete_a_user(): 
+    """
+    Delete a User
+    This path operation delete a user in the app
+    
+    Parameters:
+    - user_id: UUID
+    
+    Returns a json with deleted user data:
+    - user_id: UUID
+    - email: Emailstr
+    - first_name: str
+    - last_name: str
+    - birth_date: datetime
+    """
     pass
 
 ### Update a user
@@ -179,17 +221,17 @@ def update_a_user():
 )
 def home():
     """
-    This path operation shows all tweets in the app
-
+    Show all tweets
+    - This path operation shows all tweets in the app
+    
     Parametes:
-        -
 
     Return a json list whit all tweets in the app, with the following keys:
-        - tweet_id: UUID  
-        - content: str    
-        - created_at: datetime
-        - updated_at: Optional[datetime]
-        - by: User
+    - tweet_id: UUID  
+    - content: str    
+    - created_at: datetime
+    - updated_at: Optional[datetime]
+    - by: User
     """
     with open("tweets.json", "r", encoding="utf-8") as f:
         results = json.loads(f.read())
@@ -206,17 +248,18 @@ def home():
 def post(tweet: Tweet = Body(...)): 
     """
     Post a Tweet
-    This path operation post a tweet in the app
+    - This path operation post a tweet in the app
+    
     Parameters: 
-        - Request body parameter
-            - tweet: Tweet
+    - Request body parameter
+        - tweet: Tweet
     
     Returns a json with the basic tweet information: 
-        tweet_id: UUID  
-        content: str    
-        created_at: datetime
-        updated_at: Optional[datetime]
-        by: User
+    - tweet_id: UUID  
+    - content: str    
+    - created_at: datetime
+    - updated_at: Optional[datetime]
+    - by: User
     """
     with open("tweets.json", "r+", encoding="utf-8") as f: 
         results = json.loads(f.read())
@@ -241,6 +284,21 @@ def post(tweet: Tweet = Body(...)):
     tags=["Tweets"]
 )
 def show_a_tweet(): 
+    """
+    Show a tweet
+    - This path operation show a tweet in the app
+    
+    Parameters
+    - Request body parameter: 
+        - tweet_id: UUID
+ 
+    Returns a json with the a user in the app, with the following keys:
+    - user_id: UUID
+    - email: EmailStr
+    - first_name: str
+    - last_name: str
+    - birth_date: datetime        
+    """ 
     pass
 
 ### Delete a tweet
@@ -252,6 +310,20 @@ def show_a_tweet():
     tags=["Tweets"]
 )
 def delete_a_tweet(): 
+    """
+    Delete a Tweet
+    - This path operation delete a tweet in the app
+    
+    Parameters:
+    - tweet_id: UUID
+    
+    Returns a json with deleted tweet data:
+    - tweet_id: UUID
+    - content: str
+    - create_at: datetime
+    - update_at: Optional[datetime]
+    - by: User
+    """    
     pass
 
 ### Update a tweet
@@ -263,4 +335,19 @@ def delete_a_tweet():
     tags=["Tweets"]
 )
 def update_a_tweet(): 
+    """
+    Update Tweet
+    - This path operation update a tweet information in the app and save in the database
+    
+    Parameters:
+    - tweet_id: UUID
+    - content: str
+    
+    Returns a json with:
+    - tweet_id: UUID
+    - content: str 
+    - created_at: datetime 
+    - updated_at: datetime
+    - by: user: User
+    """
     pass
