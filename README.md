@@ -35,4 +35,4 @@ uvicorn main:app --reload
 
 ## Screenshot
 
-[![image](https://raw.githubusercontent.com/QPRodrigo/TwitterApi-FastApi/main/FastApiQPRodrigo.PNG)](#)
+[![image](https://raw.githubusercontent.com/QPRodrigo/TwitterApi-FastApi/main/img/FastApiQPRodrigo.PNG)](#)
